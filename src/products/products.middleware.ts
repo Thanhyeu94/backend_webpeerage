@@ -2,13 +2,13 @@ import { Request,Response, NextFunction } from "express";
 import defineAbilityFor from "../users/users.ability";
 import { responseFobidden } from "../../common/response";
 
-class CommentMidleware{
+class productsMiddleware{
    async checkPermission (req:Request,res:Response,next:NextFunction){
         try {
             console.log("req customers:",req.customers);
             console.log("reqComment: ",req.params.id);
             const ability = defineAbilityFor(req.customers);
-            if(ability.can('update', 'Comment')){
+            if(ability.can('addProduct', 'cart')){
                 next();
             }
             else{
@@ -20,4 +20,4 @@ class CommentMidleware{
         }
     }
 }
-export default new CommentMidleware();
+export default new productsMiddleware();

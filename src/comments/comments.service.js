@@ -8,31 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const users_ability_1 = __importDefault(require("../users/users.ability"));
-const response_1 = require("../../common/response");
-class CommentMidleware {
-    checkPermission(req, res, next) {
+const pg_1 = require("../config/pg");
+class commentService {
+    updateComment(payload) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log("req customers:", req.customers);
-                console.log("reqComment: ", req.params.id);
-                const ability = (0, users_ability_1.default)(req.customers);
-                if (ability.can('update', 'Comment')) {
-                    next();
+                const updateComment = yield pg_1.pool.query(`update comments set content = $1 where id = $2 AND customers_id = $3  RETURNING *`, [payload.content, payload.id, payload.customers_id]);
+                console.log("up:", updateComment);
+                if (updateComment.rows.length === 0) {
+                    return null;
                 }
-                else {
-                    return res.send((0, response_1.responseFobidden)("user do not allow to access this resource"));
-                }
+                return updateComment.rows;
             }
             catch (error) {
-                console.log(error);
+                console.log("err", error);
                 throw error;
             }
         });
     }
 }
-exports.default = new CommentMidleware();
+exports.default = new commentService();

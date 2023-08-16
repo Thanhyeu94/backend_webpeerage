@@ -14,14 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const users_ability_1 = __importDefault(require("../users/users.ability"));
 const response_1 = require("../../common/response");
-class CommentMidleware {
+class productsMiddleware {
     checkPermission(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 console.log("req customers:", req.customers);
                 console.log("reqComment: ", req.params.id);
                 const ability = (0, users_ability_1.default)(req.customers);
-                if (ability.can('update', 'Comment')) {
+                if (ability.can('addProduct', 'cart')) {
                     next();
                 }
                 else {
@@ -35,4 +35,4 @@ class CommentMidleware {
         });
     }
 }
-exports.default = new CommentMidleware();
+exports.default = new productsMiddleware();

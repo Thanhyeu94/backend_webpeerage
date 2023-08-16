@@ -1,5 +1,4 @@
 import * as  jwt from "jsonwebtoken"
-import { authCreatePayLoad } from "./auth.interface"
 import {pool} from "../config/pg"
 import { transporter } from "../config/nodemailer"
 class authService{

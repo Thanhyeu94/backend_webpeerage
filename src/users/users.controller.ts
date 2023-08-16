@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import userService from "../users/users.service"
-import { responseBadRequest } from "../../common/response";
+import { responseBadRequest, responseFobidden, responseSuccess } from "../../common/response";
 class userController{
    async checkUnique(req:Request,res:Response){
        try {
@@ -35,6 +35,10 @@ class userController{
     async profile(req:Request,res:Response){
         try {
             const authorizationString  = req.headers.authorization ;
+            if(!authorizationString){
+                res.send(responseFobidden("bạn k có quyền"))
+            }
+            res.send (responseSuccess(authorizationString))
             console.log("authorizationString: ",authorizationString)
         } catch (error) {
             console.log(error)

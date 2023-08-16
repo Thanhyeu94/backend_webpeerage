@@ -55,6 +55,10 @@ class userController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const authorizationString = req.headers.authorization;
+                if (!authorizationString) {
+                    res.send((0, response_1.responseFobidden)("bạn k có quyền"));
+                }
+                res.send((0, response_1.responseSuccess)(authorizationString));
                 console.log("authorizationString: ", authorizationString);
             }
             catch (error) {

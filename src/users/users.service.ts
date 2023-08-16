@@ -1,6 +1,5 @@
 import { pool } from "../config/pg"
 import { updateCreatePayLoad, userCreatePayLoad } from "./uses.interface";
-import { Request,Response } from "express";
 class userService{
     async checkUnique(email:string){
         try {
